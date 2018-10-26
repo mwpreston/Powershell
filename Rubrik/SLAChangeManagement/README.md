@@ -8,7 +8,7 @@ This project is designed with the intent of running the script on a scheduled ta
  
 ## Configuration
 
-There are a couple main files used to hold configuration for the script. The config.json file and an encrypted xml file holding credentials to the Rubrik CDM.  Both should be placed in a folder which is passed to the script via an argument
+There are a couple main files used to hold configuration for the script. The config.json file and an encrypted xml file holding credentials to the Rubrik CDM.  Both should be placed in a folder which is passed to the script via an argument.  The script will inhertiantly create, delete, and modify other files within the ConfigFolder as it uses this to store SLA Domain information
 
 ### Configuration Folder
 
