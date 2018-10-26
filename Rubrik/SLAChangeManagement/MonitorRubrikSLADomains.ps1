@@ -36,13 +36,51 @@ $script:Config = Get-Content -Path $ConfigFile | ConvertFrom-Json
 #check if credential file exists
 CheckForCredentials
 
+
 $Credential = Import-Clixml -Path ($ConfigFolder + $Config.rubrikCred)
 $null = Connect-Rubrik -Server $Config.rubrikServer -Credential $Credential
 Write-Output "Rubrik Status: Connected to $($rubrikConnection.server)"
 
-$slas = Get-RubrikSLA
 
-foreach ($sla in $slas)
+#Get Current SLAs
+
+$previousslas = Import-Clixml $PSScriptRoot\slas\masterlist.txt
+$currentslas = Get-RubrikSLA 
+
+#run comparasin
+$comparasins = Compare-Object -ReferenceObject $previousslas -DifferenceObject $currentslas -IncludeEqual -Property Id
+
+foreach ($comparasin in $comparasins)
 {
-    Write-Host $sla.id
+
+    if ($comparasin.SideIndicator -eq "=>")
+    {
+        Write-Output "SLA ($($comparasin.id)) still exists in current, but not in previous - this means it's new"
+       
+        
+        #Get New SLA info
+        #Log to change file
+    }
+
+    if ($comparasin.SideIndicator -eq "<=")
+    {
+        Write-Output "SLA ($($comparasin.id)) still exists previous, but not in current - this means it's deleted"
+        # Get old SLA Info
+        # Log to change file
+        # rename individual sla file to -deleted
+        
+
+    }
+    if ($comparasin.SideIndicator -eq "==")
+    {
+        Write-Output "SLA ($($comparasin.id)) still exists, time to dive deeper"
+        # loop through these ids comparing current to previous
+        # if change, log to change file
+    }
 }
+
+# Export current SLA info into individual files.
+ 
+
+
+
