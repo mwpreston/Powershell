@@ -8,9 +8,9 @@ This project is designed with the intent of running the script on a scheduled ta
  
 ## Configuration
 
-There are a couple main files used to hold configuration for the script. The config.json file and an encrypted xml file holding credentials to the Rubrik CDM.
+There are a couple main files used to hold configuration for the script. The config.json file and an encrypted xml file holding credentials to the Rubrik CDM.  Both should be placed in a folder which is passed to the script via an argument
 
-### Configuration JSON File
+### Configuration Folder
 
 The config folder contains a JSON file (config.json) that describe the Rubrik Cluster information. A sample configuration looks like:
 ```javascript
@@ -31,9 +31,9 @@ Note: Secure XML files can only be decrypted by the user account that created th
 
 Once the configuration and identity requirements are met, the script can be executed using the following syntax...
 ```javascript
-.\MonitorRubrikSLADomains.ps1 -ConfigFile .\config\config.json 
+.\MonitorRubrikSLADomains.ps1 -ConfigFolder c:\config\
 ```
 Output from script may be logged to a file by piping the entire script to Out-File as follows:
 ```javascript
-.\MonitorRubrikSLADomains.ps1 -ConfigFile .\config\config.json  | Out-File C:\scriptoutput.txt
+.\MonitorRubrikSLADomains.ps1 -ConfigFolder ./config  | Out-File C:\scriptoutput.txt
 ```
