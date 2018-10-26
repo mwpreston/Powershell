@@ -33,5 +33,16 @@ $ConfigFile = $ConfigFolder + "config.json"
 #load config into variable
 $script:Config = Get-Content -Path $ConfigFile | ConvertFrom-Json
 
+#check if credential file exists
 CheckForCredentials
 
+$Credential = Import-Clixml -Path ($ConfigFolder + $Config.rubrikCred)
+$null = Connect-Rubrik -Server $Config.rubrikServer -Credential $Credential
+Write-Output "Rubrik Status: Connected to $($rubrikConnection.server)"
+
+$slas = Get-RubrikSLA
+
+foreach ($sla in $slas)
+{
+    Write-Host $sla.id
+}
