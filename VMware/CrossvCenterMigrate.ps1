@@ -9,8 +9,8 @@ $destinationHost = "esxi41.rubrik.us"
 $destinationDatastore = Get-Datastore -Server $destinationVC -Name "Datastore"
 $destinationPortGroup = Get-VirtualPortGroup -Server $destinationVC -Name 'VM_Production'
 
-$vm = Get-VM -Server $sourceVC "MPRESTON-VM2"
+$vm = Get-VM -Server $sourceVC "MPRESTON-VMLINK"
 $sourceNetworkAdapter = Get-NetworkAdapter -VM $vm
 
-Move-VM -VM $vm -VMotionPriority High -Destination (Get-VMHost -Server $destinationVC -Name $destinationHost)
-  -NetworkAdapter $networkAdapter -PortGroup $destinationPortGroup -Datastore $destinationDatastore
+Move-VM -VM $vm -VMotionPriority High -Destination (Get-VMHost -Server $destinationVC -Name $destinationHost) `
+ -NetworkAdapter $networkAdapter -PortGroup $destinationPortGroup -Datastore $destinationDatastore
