@@ -17,7 +17,11 @@ function CheckForCredentials
         CreateCredentialFile -FilePath $CredFile -Message "Please enter a username and password with access to the Rubrik cluster..."
     }
 }
-
+function CreateCredentialFile ($FilePath, $Message)
+{
+    $Credential = Get-Credential -Message $Message
+    $Credential | Export-Clixml -Path ($FilePath)
+}
 #append backslash if not there
 if ($ConfigFolder -notmatch '.+?\\$') { $ConfigFolder += '\' }
 
