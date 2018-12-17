@@ -36,5 +36,9 @@ CheckForCredentials
 
 
 $Credential = Import-Clixml -Path ($ConfigFolder + $Config.rubrikCred)
+$RubrikCluster = $config.rubrikServer
+#Build header
+$auth = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($Credential.username + ':' + $Credential.GetNetworkCredential().password))
+$header = @{'Authorization' = "Basic $auth" }
 
-#Invoke-WebRequest -Method "POST" -Uri "https://"
+Invoke-WebRequest -Header $header -Method "POST" -Uri "https://$RubrikCluster/api/v1/session"
