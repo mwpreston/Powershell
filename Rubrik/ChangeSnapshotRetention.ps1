@@ -16,7 +16,6 @@ foreach ($vm in $unmanaged_vms)
         $snapshots = (Invoke-RubrikRESTCall -Endpoint "unmanaged_object/$($vm.id)/snapshot" -Method "GET" -api "internal").data.id
         $body = New-Object -TypeName PSObject -Property @{'slaDomainId'=$sladomainid}
         $body | Add-Member -Name "snapshotIds" -MemberType NoteProperty -Value $snapshots
-
         Invoke-RubrikRESTCall -Endpoint "unmanaged_object/snapshot/assign_sla" -Method "POST" -api "internal" -Body $body
     }
 }
