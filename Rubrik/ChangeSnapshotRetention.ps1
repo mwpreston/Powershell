@@ -5,7 +5,7 @@ $cluster = "192.168.150.121"
 $null = Connect-Rubrik -Server $cluster -Credential $creds
 
 #sla domain id to change to
-$sladomainid = (Get-RubrikSLA -Name "Silver").id 
+$sladomainid = (Get-RubrikSLA -Name "Bronze").id 
 
 $unmanaged_vms = (Invoke-RubrikRESTCall -Endpoint "unmanaged_object?object_type=VirtualMachine" -Method "GET" -api "internal").data
 
@@ -20,7 +20,7 @@ foreach ($vm in $unmanaged_vms)
             $snapids = $snapids + $snap
         }
         $body = New-Object -TypeName PSObject -Property @{'slaDomainId'=$sladomainid}
-        $body | Add-Member -Name "snapshotIds" -MemberType NoteProperty -Value $a
+        $body | Add-Member -Name "snapshotIds" -MemberType NoteProperty -Value $snapids
 
         Invoke-RubrikRESTCall -Endpoint "unmanaged_object/snapshot/assign_sla" -Method "POST" -api "internal" -Body $body
     }
